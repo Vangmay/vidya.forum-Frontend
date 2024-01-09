@@ -1,0 +1,3 @@
+- Implemented registeration
+- Implemented Login 
+- Write feature that allows a user to be retrieved
