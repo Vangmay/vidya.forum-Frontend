@@ -1,7 +1,14 @@
 import React from "react";
+import User from "../App";
 
-const Home = () => {
-  return <div>Home</div>;
+interface HomeProps {
+  user: User;
+}
+
+const Home = ({ user }: HomeProps) => {
+  console.log("Home");
+  console.log(user);
+  return <div>{JSON.stringify(user)}</div>;
 };
 
 export default Home;

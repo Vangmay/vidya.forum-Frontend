@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useState } from "react";
+import React, { SyntheticEvent, useEffect, useState } from "react";
 import {
   ChakraProvider,
   Box,
@@ -21,76 +21,87 @@ interface LoginProps {
 }
 
 const Login = ({ user, setUser }: LoginProps) => {
-  const [formData, setFormData] = useState<FormData>({
-    email: "",
-    password: "",
-  });
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
-    const jsonContent = JSON.stringify(formData, null, 2);
 
-    // *Random thought: The password is visible here while it gets transmitted,
-    // *should I encrypt the password over here instead of the backend level?
+    try {
+      const response = await fetch("http://localhost:8000/auth/login", {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
 
-    // Send a request to the API
-    const response = await fetch("http://localhost:8000/auth/login", {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: jsonContent,
-    }); // Request is being sent and user is being created :)
-    // ! There is no way to allow the user to know if account was successfully created.
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} - ${response.statusText}`);
+      }
 
-    if (response.ok) {
       const content: User = await response.json();
+      console.log("content", content);
 
-      setIsLoggedIn(true);
+      // Assuming content is an object with user details
       setUser(content);
-      console.log(user);
-    } else {
-      const error = await response.json();
-      console.log(error.message);
-      setErrors(error);
+      setIsLoggedIn(true); // You might want to update this based on your actual authentication logic
+    } catch (error) {
+      console.error("Error during login:", error);
+      // Handle error state or set appropriate error messages in the component state
+      setErrors({ UserNotFound: "Invalid credentials. Please try again." });
     }
+    console.log(user);
   };
+  console.log(user);
+  useEffect(() => {
+    console.log("user updated", user);
+  }, [user]);
 
   return (
     <ChakraProvider>
       <Box p={4} maxW="md" mx="auto">
-        <FormControl mt={4} isRequired isInvalid={errors.UserNotFound != null}>
-          <FormLabel>Email</FormLabel>
-          <Input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-          <FormErrorMessage>{errors.UserNotFound}</FormErrorMessage>
-        </FormControl>
-        {/*  * Can force strong password */}
-        <FormControl mt={4} isRequired isInvalid={errors.WrongPassword != null}>
-          {" "}
-          <FormLabel>Password</FormLabel>
-          <Input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-          <FormErrorMessage>{errors.WrongPassword}</FormErrorMessage>
-        </FormControl>
-        <Button mt={4} colorScheme="teal" onClick={handleSubmit}>
-          Login
-        </Button>
+        <form onSubmit={handleSubmit}>
+          <FormControl
+            mt={4}
+            isRequired
+            isInvalid={errors.UserNotFound != null}
+          >
+            <FormLabel>Email</FormLabel>
+            <Input
+              type="email"
+              name="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <FormErrorMessage>{errors.UserNotFound}</FormErrorMessage>
+          </FormControl>
+          {/*  * Can force strong password */}
+          <FormControl
+            mt={4}
+            isRequired
+            isInvalid={errors.WrongPassword != null}
+          >
+            {" "}
+            <FormLabel>Password</FormLabel>
+            <Input
+              type="password"
+              name="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <FormErrorMessage>{errors.WrongPassword}</FormErrorMessage>
+          </FormControl>
+          <Button mt={4} colorScheme="teal" type="submit">
+            Login
+          </Button>
+        </form>
+
         {isLoggedIn ? <h6>You have been logged in!</h6> : <></>}
       </Box>
     </ChakraProvider>
