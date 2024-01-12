@@ -35,9 +35,6 @@ export const App = () => {
 
   const [user, setUser] = useState<User>(emptyUser);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // useEffect(() => {
-  //   console.log("user updated", user);
-  // }, [user]);
   useEffect(() => {
     (async () => {
       const response = await fetch("http://localhost:8000/auth/profile", {
@@ -47,7 +44,6 @@ export const App = () => {
       });
 
       const content = await response.json();
-
       setUser(content);
     })();
   }, []);
@@ -64,7 +60,14 @@ export const App = () => {
           <Route path="/" Component={() => <Home user={user} />} />
           <Route
             path="/login"
-            Component={() => <Login user={user} setUser={setUser} />}
+            Component={() => (
+              <Login
+                user={user}
+                setUser={setUser}
+                isLoggedIn={isLoggedIn}
+                setIsLoggedIn={setIsLoggedIn}
+              />
+            )}
           />
           <Route path="/register" Component={Register} />
         </Routes>

@@ -18,44 +18,42 @@ type FormData = {
 interface LoginProps {
   user: User;
   setUser: React.Dispatch<React.SetStateAction<User>>;
+  isLoggedIn: boolean;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Login = ({ user, setUser }: LoginProps) => {
+const Login = ({ user, setUser, isLoggedIn, setIsLoggedIn }: LoginProps) => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch("http://localhost:8000/auth/login", {
-        method: "POST",
-        headers: { "Content-type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          email,
-          password,
-        }),
-      });
+    const response = await fetch("http://localhost:8000/auth/login", {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+    });
 
-      if (!response.ok) {
-        throw new Error(`Error: ${response.status} - ${response.statusText}`);
-      }
-
+    if (response.ok) {
       const content: User = await response.json();
       console.log("content", content);
-
-      // Assuming content is an object with user details
       setUser(content);
       setIsLoggedIn(true); // You might want to update this based on your actual authentication logic
-    } catch (error) {
-      console.error("Error during login:", error);
-      // Handle error state or set appropriate error messages in the component state
-      setErrors({ UserNotFound: "Invalid credentials. Please try again." });
+    } else {
+      const error = await response.json();
+      console.log(error.message);
+      setErrors(error);
     }
+
+    // Assuming content is an object with user details
+
     console.log(user);
   };
   console.log(user);

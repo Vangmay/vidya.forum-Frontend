@@ -48,32 +48,35 @@ const Navbar: React.FC<NavBarProps> = ({
 
   let menu;
 
-  // if (profile.UserName === "") {
-  //   menu = (
-  //     <ul className="navbar-nav me-auto mb-2 mb-md-0">
-  //       <li className="nav-item active">
-  //         <Link to="/login" className="nav-link">
-  //           Login
-  //         </Link>
-  //       </li>
-  //       <li className="nav-item active">
-  //         <Link to="/register" className="nav-link">
-  //           Register
-  //         </Link>
-  //       </li>
-  //     </ul>
-  //   );
-  // } else {
-  //   menu = (
-  //     <ul className="navbar-nav me-auto mb-2 mb-md-0">
-  //       <li className="nav-item active">
-  //         <Link to="/" className="nav-link" onClick={logout}>
-  //           Logout
-  //         </Link>
-  //       </li>
-  //     </ul>
-  //   );
-  // }
+  if (profile.UserName != "") {
+    menu = (
+      <>
+        <Link href="/">
+          <Button colorScheme="teal" mr={4}>
+            Home
+          </Button>
+        </Link>
+        <Button colorScheme="teal" mr={4} onClick={() => logout()}>
+          Logout
+        </Button>
+      </>
+    );
+  } else {
+    menu = (
+      <>
+        <Link href="/login">
+          <Button colorScheme="teal" mr={4}>
+            Login
+          </Button>
+        </Link>
+        <Link href="/register">
+          <Button colorScheme="teal" mr={4}>
+            Register
+          </Button>
+        </Link>
+      </>
+    );
+  }
 
   return (
     <Flex p={4} bg="teal.500" color="white">
@@ -82,11 +85,6 @@ const Navbar: React.FC<NavBarProps> = ({
       </Box>
       <Spacer />
       <Box>
-        <Link href="/">
-          <Button colorScheme="teal" mr={4}>
-            Home
-          </Button>
-        </Link>
         <>
           <Link href="/login">
             <Button colorScheme="teal" mr={4}>
@@ -96,6 +94,13 @@ const Navbar: React.FC<NavBarProps> = ({
           <Link href="/register">
             <Button colorScheme="teal" mr={4}>
               Register
+            </Button>
+          </Link>
+        </>
+        <>
+          <Link href="/">
+            <Button colorScheme="teal" mr={4}>
+              Home
             </Button>
           </Link>
           <Button colorScheme="teal" mr={4} onClick={() => logout()}>
