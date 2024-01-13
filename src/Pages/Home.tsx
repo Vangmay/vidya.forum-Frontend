@@ -2,7 +2,15 @@ import React, { useEffect, useState } from "react";
 import User from "../App";
 import SingleComment from "../Components/SingleComment";
 import SinglePost from "../Components/SinglePost";
-import { VStack, FormControl, FormLabel, Select } from "@chakra-ui/react";
+import {
+  VStack,
+  FormControl,
+  FormLabel,
+  Select,
+  HStack,
+} from "@chakra-ui/react";
+import PostForm from "../Components/PostForm";
+import EditPostForm from "../Components/EditPostForm";
 
 interface HomeProps {
   user: User;
@@ -83,13 +91,21 @@ const SamplePost = {
 
 const Home = ({ user }: HomeProps) => {
   const [posts, setPosts] = useState([]);
-  const [filter, setFilter] = useState("");
+  const [filter, setFilter] = useState("http://localhost:8000/posts");
 
   useEffect(() => {
-    fetch(filter)
-      .then((res) => res.json())
+    console.log(filter);
+    fetch(filter, {
+      method: "GET",
+      headers: { "Content-type": "application/json" },
+    })
+      .then((res) => {
+        console.log(res);
+        return res.json();
+      })
       .then((data) => {
         setPosts(data);
+        console.log("data");
         console.log(data);
       })
       .then((error) => console.error("Error fetching posts: ", error));
@@ -97,6 +113,9 @@ const Home = ({ user }: HomeProps) => {
 
   return (
     <div>
+      <h4>{JSON.stringify(user)}</h4>
+      <h4>Create post</h4>
+      <PostForm />
       <FormControl>
         <FormLabel>Filter</FormLabel>
         <Select value={filter} onChange={(e) => setFilter(e.target.value)}>
@@ -113,10 +132,19 @@ const Home = ({ user }: HomeProps) => {
           </option>
         </Select>
       </FormControl>
-      <SinglePost post={SamplePost} />
+
       <VStack spacing={4}>
-        {posts.map((post) => (
-          <SinglePost post={post} />
+        {posts.map((post: any) => (
+          <HStack>
+            <SinglePost
+              post={post}
+              currentUser={user}
+              key={post.id}
+              filter={filter}
+              setFilter={setFilter}
+            />
+            <EditPostForm post={post} />
+          </HStack>
         ))}
       </VStack>
     </div>

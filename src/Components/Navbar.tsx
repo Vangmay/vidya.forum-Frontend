@@ -85,28 +85,7 @@ const Navbar: React.FC<NavBarProps> = ({
       </Box>
       <Spacer />
       <Box>
-        <>
-          <Link href="/login">
-            <Button colorScheme="teal" mr={4}>
-              Login
-            </Button>
-          </Link>
-          <Link href="/register">
-            <Button colorScheme="teal" mr={4}>
-              Register
-            </Button>
-          </Link>
-        </>
-        <>
-          <Link href="/">
-            <Button colorScheme="teal" mr={4}>
-              Home
-            </Button>
-          </Link>
-          <Button colorScheme="teal" mr={4} onClick={() => logout()}>
-            Logout
-          </Button>
-        </>
+        <>{menu}</>
       </Box>
     </Flex>
   );
