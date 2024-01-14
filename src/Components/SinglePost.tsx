@@ -1,6 +1,7 @@
 import React from "react";
 import { Box, Text, Avatar, VStack, HStack, Button } from "@chakra-ui/react";
 import SingleComment from "./SingleComment";
+import CreateCommentForm from "./CreateCommentForm";
 // Implement CRUD for posts
 export interface postProps {
   post: any; // ! Change later
@@ -53,9 +54,14 @@ const SinglePost = ({ post, currentUser, filter, setFilter }: postProps) => {
       <Text fontSize="lg" fontWeight="bold" mb={2}>
         Comments:
       </Text>
+      <CreateCommentForm post={post} />
       <VStack spacing={2} align="stretch">
         {comments.map((comment: any) => (
-          <SingleComment key={comment.id} comment={comment} />
+          <SingleComment
+            key={comment.id}
+            comment={comment}
+            currentUser={currentUser}
+          />
         ))}
       </VStack>
     </Box>
