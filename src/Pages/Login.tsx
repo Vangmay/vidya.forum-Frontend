@@ -7,6 +7,11 @@ import {
   FormControl,
   FormLabel,
   FormErrorMessage,
+  Heading,
+  Flex,
+  Text,
+  Link,
+  Center,
 } from "@chakra-ui/react";
 import User from "../App";
 
@@ -62,16 +67,36 @@ const Login = ({ user, setUser, isLoggedIn, setIsLoggedIn }: LoginProps) => {
   }, [user]);
 
   return (
-    <ChakraProvider>
-      <Box p={4} maxW="md" mx="auto">
+    <Flex
+      align="center"
+      justify="center"
+      minH="100vh"
+      bgImage="url('/Login.jpg')" // ! Why is the image not displaying???
+      backgroundPosition="center"
+      backgroundRepeat="no-repeat"
+      backgroundSize="cover"
+    >
+      <Box
+        p={8}
+        bg="rgba(255, 255, 255, 0.3)"
+        // borderRadius={"750px"}
+        padding={"50px"}
+        rounded={"10px"}
+        backdropFilter={"blur(5px)"}
+      >
+        <Heading mb={6}>Login</Heading>
+
         <form onSubmit={handleSubmit}>
           <FormControl
             mt={4}
             isRequired
             isInvalid={errors.UserNotFound != null}
           >
-            <FormLabel>Email</FormLabel>
             <Input
+              placeholder="Email"
+              variant="filled"
+              mb={3}
+              rounded="md"
               type="email"
               name="email"
               value={email}
@@ -79,30 +104,36 @@ const Login = ({ user, setUser, isLoggedIn, setIsLoggedIn }: LoginProps) => {
             />
             <FormErrorMessage>{errors.UserNotFound}</FormErrorMessage>
           </FormControl>
-          {/*  * Can force strong password */}
+
           <FormControl
             mt={4}
             isRequired
             isInvalid={errors.WrongPassword != null}
           >
-            {" "}
-            <FormLabel>Password</FormLabel>
             <Input
               type="password"
               name="password"
-              value={password}
+              placeholder="Password"
+              variant="filled"
+              mb={3}
+              rounded="md"
               onChange={(e) => setPassword(e.target.value)}
             />
             <FormErrorMessage>{errors.WrongPassword}</FormErrorMessage>
           </FormControl>
-          <Button mt={4} colorScheme="teal" type="submit">
-            Login
-          </Button>
+          <Center>
+            <Button colorScheme="teal" type="submit">
+              Log In
+            </Button>
+          </Center>
+          <Text>Don't have an acccount?</Text>
+          <Link href="/register">
+            <Text as="b">Register here</Text>
+          </Link>
+          {isLoggedIn ? <h6>You have been logged in!</h6> : <></>}
         </form>
-
-        {isLoggedIn ? <h6>You have been logged in!</h6> : <></>}
       </Box>
-    </ChakraProvider>
+    </Flex>
   );
 };
 
