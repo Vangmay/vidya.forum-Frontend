@@ -16,6 +16,8 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import Navbar from "./Components/Navbar";
 import { useState, useEffect } from "react";
+import SinglePost from "./Components/SinglePost";
+import PostPage from "./Components/PostPage";
 
 export default interface User {
   Id: number;
@@ -70,6 +72,10 @@ export const App = () => {
             )}
           />
           <Route path="/register" Component={Register} />
+          <Route
+            path="/post/:postId"
+            Component={() => <PostPage currentUser={user} />}
+          />
         </Routes>
       </BrowserRouter>
     </ChakraProvider>

@@ -51,47 +51,6 @@ const Register: React.FC = () => {
     }
   };
 
-  // return (
-  //     <Box p={4} maxW="md" mx="auto">
-  //       <FormControl isRequired isInvalid={errors.UsernameConflict != null}>
-  //         <FormLabel>Username</FormLabel>
-  //         <Input
-  //           type="text"
-  //           name="username"
-  //           value={username}
-  //           onChange={(e) => setUsername(e.target.value)}
-  //         />
-  //         <FormErrorMessage>{errors.UsernameConflict}</FormErrorMessage>
-  //       </FormControl>
-
-  //       <FormControl mt={4} isRequired isInvalid={errors.EmailConflict != null}>
-  //         <FormLabel>Email</FormLabel>
-  //         <Input
-  //           type="email"
-  //           name="email"
-  //           value={email}
-  //           onChange={(e) => setEmail(e.target.value)}
-  //         />
-  //         <FormErrorMessage>{errors.EmailConflict}</FormErrorMessage>
-  //       </FormControl>
-
-  //       {/*  * Can force strong password */}
-  //       <FormControl mt={4} isRequired>
-  //         {" "}
-  //         <FormLabel>Password</FormLabel>
-  //         <Input
-  //           type="password"
-  //           name="password"
-  //           value={password}
-  //           onChange={(e) => setEmail(e.target.value)}
-  //         />
-  //       </FormControl>
-
-  //       <Button mt={4} colorScheme="teal" onClick={handleSubmit}>
-  //         Register
-  //       </Button>
-  //     </Box>
-  // );
   return (
     <Flex
       align="center"

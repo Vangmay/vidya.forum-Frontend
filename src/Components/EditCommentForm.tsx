@@ -45,6 +45,7 @@ function EditCommentForm({ comment }: EditProps) {
           placeholder="Title"
           value={content}
           onChange={(e) => setContent(e.target.value)}
+          autoFocus
         />
         <Button type="submit" colorScheme="teal">
           Edit Comment

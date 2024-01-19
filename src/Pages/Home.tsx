@@ -8,86 +8,15 @@ import {
   FormLabel,
   Select,
   HStack,
+  Link,
 } from "@chakra-ui/react";
 import PostForm from "../Components/PostForm";
 import EditPostForm from "../Components/EditPostForm";
+import PostCard from "../Components/PostCard";
 
 interface HomeProps {
   user: User;
 }
-const SamplePost = {
-  id: 1,
-  body: "I would like to announce that my stuff is being released on 25th Jan 2024",
-  title: "Epic announcement",
-  tag: "Web Development",
-  userId: 1,
-  user: {
-    id: 1,
-    userName: "test",
-    email: "test@gmail.com",
-    isAdmin: false,
-  },
-  comments: [
-    {
-      id: 1,
-      content: "Good job",
-      postId: 1,
-      post: {
-        id: 0,
-        body: "",
-        title: "",
-        tag: "",
-        userId: 0,
-        user: {
-          id: 0,
-          userName: "",
-          email: "",
-          isAdmin: false,
-        },
-        comments: null,
-        likes: 0,
-        IsEdited: false,
-      },
-      userId: 1,
-      user: {
-        id: 1,
-        userName: "test",
-        email: "test@gmail.com",
-        isAdmin: false,
-      },
-    },
-    {
-      id: 2,
-      content: "Very Well sire",
-      postId: 1,
-      post: {
-        id: 0,
-        body: "",
-        title: "",
-        tag: "",
-        userId: 0,
-        user: {
-          id: 0,
-          userName: "",
-          email: "",
-          isAdmin: false,
-        },
-        comments: null,
-        likes: 0,
-        IsEdited: false,
-      },
-      userId: 1,
-      user: {
-        id: 1,
-        userName: "test",
-        email: "test@gmail.com",
-        isAdmin: false,
-      },
-    },
-  ],
-  likes: 0,
-  IsEdited: false,
-};
 
 const Home = ({ user }: HomeProps) => {
   const [posts, setPosts] = useState([]);
@@ -114,8 +43,8 @@ const Home = ({ user }: HomeProps) => {
   return (
     <div>
       <h4>{JSON.stringify(user)}</h4>
-      <h4>Create post</h4>
-      <PostForm />
+      {/* <h4>Create post</h4>
+      <PostForm /> */}
       <FormControl>
         <FormLabel>Filter</FormLabel>
         <Select value={filter} onChange={(e) => setFilter(e.target.value)}>
@@ -133,17 +62,20 @@ const Home = ({ user }: HomeProps) => {
         </Select>
       </FormControl>
 
+      <PostForm />
+
       <VStack spacing={4}>
         {posts.map((post: any) => (
           <HStack>
-            <SinglePost
-              post={post}
-              currentUser={user}
-              key={post.id}
-              filter={filter}
-              setFilter={setFilter}
-            />
-            <EditPostForm post={post} />
+            <Link
+              href={`/post/${post.id}`}
+              _hover={{
+                textDecoration: "none", // Remove the default underline
+                borderBottom: "2px solid #00f", // Add your custom underline style
+              }}
+            >
+              <PostCard post={post} currentUser={user} />
+            </Link>
           </HStack>
         ))}
       </VStack>
