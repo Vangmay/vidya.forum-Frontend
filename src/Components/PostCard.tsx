@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Text,
@@ -21,8 +21,9 @@ interface PostCardProps {
 }
 
 const PostCard = ({ post, currentUser }: PostCardProps) => {
-  const { id, title, body, user, IsEdited } = post;
+  const { id, title, body, user, IsEdited, likes } = post;
   const signal = IsEdited ? "edited" : "";
+  const [like, setLike] = useState(false);
   return (
     <Card maxW="md">
       <CardHeader>
@@ -58,14 +59,11 @@ const PostCard = ({ post, currentUser }: PostCardProps) => {
           },
         }}
       >
-        <Button flex="1" variant="ghost">
-          Like
+        <Button flex="1" variant="ghost" onClick={() => setLike(false)}>
+          Likes: {likes}
         </Button>
         <Button flex="1" variant="ghost">
           Comment
-        </Button>
-        <Button flex="1" variant="ghost">
-          Share
         </Button>
       </CardFooter>
     </Card>

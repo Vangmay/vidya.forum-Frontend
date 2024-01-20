@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Text, Avatar, VStack, HStack, Button } from "@chakra-ui/react";
 import SingleComment from "./SingleComment";
 import CreateCommentForm from "./CreateCommentForm";
@@ -11,6 +11,7 @@ export interface postProps {
 }
 const SinglePost = ({ post, currentUser, filter, setFilter }: postProps) => {
   const { id, title, body, tags, likes, user, comments, IsEdited } = post;
+  const [showLike, setShowLike] = useState(true);
   console.log("Current User");
   console.log(currentUser);
   // Delete post logic
@@ -31,7 +32,35 @@ const SinglePost = ({ post, currentUser, filter, setFilter }: postProps) => {
       console.error("Failed to delete post");
     }
   }
-  // Delete post logic
+  async function handleLike() {
+    const response = await fetch(`http://localhost:8000/post/like/${id}`, {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      credentials: "include",
+    });
+    if (response.ok) {
+      console.log("Post liked succesfully");
+      setShowLike(false);
+    } else {
+      console.error("failed to like post");
+    }
+  }
+  async function handleUnlike() {
+    const response = await fetch(`http://localhost:8000/post/unlike/${id}`, {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      credentials: "include",
+    });
+    if (response.ok) {
+      console.log("Post unliked succesfully");
+      setShowLike(true);
+    } else {
+      console.error("failed to unlike post");
+    }
+  }
+
+  let LikeButton = <Button onClick={() => handleLike()}>Like</Button>;
+  let UnlikeButton = <Button onClick={() => handleUnlike()}>Unlike</Button>;
   let signal: string;
   IsEdited ? (signal = "edited") : (signal = "");
   return (

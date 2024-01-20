@@ -62,7 +62,7 @@ const PostForm = () => {
           <option value="Science">Science</option>
           <option value="Computer Science">Computer Science</option>
         </Select>
-        <Box display={"flex"} gap={"10px"}>
+        <Box display={"flex"} gap={"10px"} width="xl">
           <Button type="submit" colorScheme="teal">
             Create Post
           </Button>
@@ -75,12 +75,13 @@ const PostForm = () => {
   ) : (
     <Center>
       <Textarea
-        mb="4"
-        w={"75vw"}
+        w="xl"
         name="Create post"
         placeholder="Create post"
         value={body}
         onClick={() => setOpenCreateForm(true)}
+        size="sm"
+        borderRadius="12px"
       ></Textarea>
     </Center>
   );

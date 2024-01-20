@@ -9,6 +9,7 @@ import {
   Select,
   HStack,
   Link,
+  Box,
 } from "@chakra-ui/react";
 import PostForm from "../Components/PostForm";
 import EditPostForm from "../Components/EditPostForm";
@@ -42,27 +43,30 @@ const Home = ({ user }: HomeProps) => {
 
   return (
     <div>
-      <h4>{JSON.stringify(user)}</h4>
-      {/* <h4>Create post</h4>
-      <PostForm /> */}
-      <FormControl>
-        <FormLabel>Filter</FormLabel>
-        <Select value={filter} onChange={(e) => setFilter(e.target.value)}>
-          <option value="http://localhost:8000/posts">None</option>
-          <option value="http://localhost:8000/posts/popular">
-            Most Popular
-          </option>
-          <option value="http://localhost:8000/posts/Science">Science</option>
-          <option value="http://localhost:8000/posts/Mathematics">
-            Mathematics
-          </option>
-          <option value="http://localhost:8000/posts/ComputerScience">
-            Computer Science
-          </option>
-        </Select>
-      </FormControl>
-
-      <PostForm />
+      <Box display="flex" bg="black" padding="12px" gap="15px">
+        <Box w="md">
+          <FormControl>
+            <Select value={filter} onChange={(e) => setFilter(e.target.value)}>
+              <option value="http://localhost:8000/posts">Filter</option>
+              <option value="http://localhost:8000/posts/popular">
+                Most Popular
+              </option>
+              <option value="http://localhost:8000/posts/Science">
+                Science
+              </option>
+              <option value="http://localhost:8000/posts/Mathematics">
+                Mathematics
+              </option>
+              <option value="http://localhost:8000/posts/ComputerScience">
+                Computer Science
+              </option>
+            </Select>
+          </FormControl>
+        </Box>
+        <Box>
+          <PostForm />
+        </Box>
+      </Box>
 
       <VStack spacing={4}>
         {posts.map((post: any) => (

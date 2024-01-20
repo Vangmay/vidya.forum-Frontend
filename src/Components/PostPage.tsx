@@ -11,7 +11,14 @@ import {
   Flex,
   Center,
 } from "@chakra-ui/react";
-import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
+import {
+  FaRegEdit,
+  FaTrashAlt,
+  FaThumbsUp,
+  FaThumbsDown,
+  FaRegThumbsUp,
+  FaRegThumbsDown,
+} from "react-icons/fa";
 import SingleComment from "./SingleComment";
 import CreateCommentForm from "./CreateCommentForm";
 import EditPostForm from "./EditPostForm";
@@ -52,7 +59,37 @@ function PostPage({ currentUser }: Props) {
   const [post, setPost] = useState(emptyPost);
   const [openEditForm, setOpenEditForm] = useState(false);
   const navigate = useNavigate();
+  const [showLike, setShowLike] = useState(true);
 
+  async function handleLike() {
+    const response = await fetch(`http://localhost:8000/post/like/${post.id}`, {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      credentials: "include",
+    });
+    if (response.ok) {
+      console.log("Post liked succesfully");
+      setShowLike(false);
+    } else {
+      console.error("failed to like post");
+    }
+  }
+  async function handleUnlike() {
+    const response = await fetch(
+      `http://localhost:8000/post/unlike/${post.id}`,
+      {
+        method: "POST",
+        headers: { "Content-type": "application/json" },
+        credentials: "include",
+      }
+    );
+    if (response.ok) {
+      console.log("Post unliked succesfully");
+      setShowLike(true);
+    } else {
+      console.error("failed to unlike post");
+    }
+  }
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -135,6 +172,30 @@ function PostPage({ currentUser }: Props) {
                 <Button mr={2} aria-label="Comments" disabled>
                   {post.comments.length} Comments
                 </Button>
+                <Button mr={2} aria-label="Likes" disabled>
+                  {post.likes} Likes
+                </Button>
+                {showLike ? (
+                  <Button
+                    leftIcon={<FaRegThumbsUp />}
+                    colorScheme="blue"
+                    mr={2}
+                    aria-label="Like Post"
+                    onClick={() => handleLike()}
+                  >
+                    Like
+                  </Button>
+                ) : (
+                  <Button
+                    leftIcon={<FaRegThumbsDown />}
+                    colorScheme="blue"
+                    mr={2}
+                    aria-label="Edit Post"
+                    onClick={() => handleUnlike()}
+                  >
+                    UnLike
+                  </Button>
+                )}
                 <Button
                   leftIcon={<FaRegEdit />}
                   colorScheme="blue"
