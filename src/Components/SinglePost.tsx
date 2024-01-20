@@ -11,7 +11,6 @@ export interface postProps {
 }
 const SinglePost = ({ post, currentUser, filter, setFilter }: postProps) => {
   const { id, title, body, tags, likes, user, comments, IsEdited } = post;
-  const [showLike, setShowLike] = useState(true);
   console.log("Current User");
   console.log(currentUser);
   // Delete post logic
@@ -32,6 +31,7 @@ const SinglePost = ({ post, currentUser, filter, setFilter }: postProps) => {
       console.error("Failed to delete post");
     }
   }
+  const [showLike, setShowLike] = useState(true);
   async function handleLike() {
     const response = await fetch(`http://localhost:8000/post/like/${id}`, {
       method: "POST",
