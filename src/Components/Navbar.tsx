@@ -50,7 +50,10 @@ const Navbar: React.FC<NavBarProps> = ({
       credentials: "include",
     })
       .then((res) => res.json())
-      .then((data) => setUser(data))
+      .then((data) => {
+        setUser(data);
+        console.log(profile);
+      })
       .then((error) => console.error("Could not fetch user"));
   }, []);
 
