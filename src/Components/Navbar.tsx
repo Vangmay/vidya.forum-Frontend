@@ -20,6 +20,7 @@ interface NavBarProps {
 const emptyUser: User = {
   Id: 0,
   UserName: "",
+  Bio: "",
   Email: "",
   IsAdmin: false,
 };
