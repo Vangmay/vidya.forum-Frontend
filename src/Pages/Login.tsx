@@ -13,7 +13,7 @@ import {
   Link,
   Center,
 } from "@chakra-ui/react";
-import User from "../App";
+import User, { HOST_URL } from "../App";
 
 type FormData = {
   email: string;
@@ -36,7 +36,7 @@ const Login = ({ user, setUser, isLoggedIn, setIsLoggedIn }: LoginProps) => {
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:8000/auth/login", {
+    const response = await fetch(`${HOST_URL}/auth/login`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: "include",

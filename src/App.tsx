@@ -18,6 +18,7 @@ import Navbar from "./Components/Navbar";
 import { useState, useEffect } from "react";
 import SinglePost from "./Components/SinglePost";
 import PostPage from "./Components/PostPage";
+import UserProfile from "./Components/UserProfile";
 
 export default interface User {
   Id: number;
@@ -25,6 +26,8 @@ export default interface User {
   Email: string;
   IsAdmin: boolean;
 }
+
+export const HOST_URL = "https://starfish-app-wjuq9.ondigitalocean.app";
 
 export const App = () => {
   console.log("Running app");
@@ -39,7 +42,7 @@ export const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
     (async () => {
-      const response = await fetch("http://localhost:8000/auth/profile", {
+      const response = await fetch(`${HOST_URL}/auth/profile`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -75,6 +78,14 @@ export const App = () => {
           <Route
             path="/post/:postId"
             Component={() => <PostPage currentUser={user} />}
+          />
+          {/* <Route
+            path="/profile"
+            Component={() => <UserProfile CurrentUser={user} />}
+          /> */}
+          <Route
+            path="/profile/:userId"
+            Component={() => <UserProfile CurrentUser={user} />}
           />
         </Routes>
       </BrowserRouter>

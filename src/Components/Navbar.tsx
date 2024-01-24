@@ -8,7 +8,7 @@ import {
   Heading,
   Link,
 } from "@chakra-ui/react";
-import User from "../App";
+import User, { HOST_URL } from "../App";
 import Home from "../Pages/Home";
 
 interface NavBarProps {
@@ -31,7 +31,7 @@ const Navbar: React.FC<NavBarProps> = ({
 }: NavBarProps) => {
   const logout = async () => {
     console.log(" logout running");
-    const response = await fetch("http://localhost:8000/auth/logout", {
+    const response = await fetch(`${HOST_URL}/auth/logout`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -54,6 +54,11 @@ const Navbar: React.FC<NavBarProps> = ({
         <Link href="/">
           <Button colorScheme="teal" mr={4}>
             Home
+          </Button>
+        </Link>
+        <Link href="/profile">
+          <Button colorScheme="teal" mr={4}>
+            Profile
           </Button>
         </Link>
         <Button colorScheme="teal" mr={4} onClick={() => logout()}>
@@ -81,7 +86,7 @@ const Navbar: React.FC<NavBarProps> = ({
   return (
     <Flex p={4} bg="teal.500" color="white">
       <Box p="2">
-        <Heading size="md">Your Logo</Heading>
+        <Heading size="md">📝Vidya.forum</Heading>
       </Box>
       <Spacer />
       <Box>

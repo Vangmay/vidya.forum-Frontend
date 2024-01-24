@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Box, Text, Avatar, Button } from "@chakra-ui/react";
 import EditCommentForm from "./EditCommentForm";
 import { FaRegEdit, FaTrashAlt } from "react-icons/fa";
+import { HOST_URL } from "../App";
 
 function DeleteComment({
   comment,
@@ -14,14 +15,11 @@ function DeleteComment({
   console.log(user);
   async function handleDelete(e: any) {
     e.preventDefault();
-    const response = await fetch(
-      `http://localhost:8000/comment/${comment.id}`,
-      {
-        method: "DELETE",
-        headers: { "Content-type": "application/json" },
-        credentials: "include",
-      }
-    );
+    const response = await fetch(`${HOST_URL}comment/${comment.id}`, {
+      method: "DELETE",
+      headers: { "Content-type": "application/json" },
+      credentials: "include",
+    });
 
     if (response.ok) {
       console.log("Comment deleted");

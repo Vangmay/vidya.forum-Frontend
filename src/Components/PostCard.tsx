@@ -25,7 +25,15 @@ const PostCard = ({ post, currentUser }: PostCardProps) => {
   const signal = IsEdited ? "edited" : "";
   const [like, setLike] = useState(false);
   return (
-    <Card maxW="md">
+    <Card
+      maxW="xxl"
+      w="xl"
+      transition="transform 0.2s, box-shadow 0.2s"
+      _hover={{
+        transform: "scale(1.05)",
+        boxShadow: "-20px 10px 10px rgba(0, 0, 0, 0.2)",
+      }}
+    >
       <CardHeader>
         <Flex gap={4}>
           <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
@@ -33,7 +41,7 @@ const PostCard = ({ post, currentUser }: PostCardProps) => {
               <Avatar name={user.userName} size="md" mb={2} />
               <Box>
                 <Heading size="sm">{user.userName}</Heading>
-                <Text>{user.Bio}</Text>
+                <Text>{user.bio}</Text>
                 <Heading size="md">{post.title}</Heading>
               </Box>
             </Box>
@@ -48,7 +56,7 @@ const PostCard = ({ post, currentUser }: PostCardProps) => {
       <CardBody>
         <Text>{post.body}</Text>
       </CardBody>
-      <Image objectFit="cover" src={post.Image} />
+      <Image objectFit="cover" src={post.image} />
 
       <CardFooter
         justify="space-between"
@@ -68,6 +76,7 @@ const PostCard = ({ post, currentUser }: PostCardProps) => {
       </CardFooter>
     </Card>
   );
+
   //   return (
   //     <Box p={4} borderWidth="1px" borderRadius="md" width={"75vw"}>
   //       <HStack>

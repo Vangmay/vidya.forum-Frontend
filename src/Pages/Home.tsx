@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import User from "../App";
+import User, { HOST_URL } from "../App";
 import SingleComment from "../Components/SingleComment";
 import SinglePost from "../Components/SinglePost";
 import {
@@ -21,7 +21,7 @@ interface HomeProps {
 
 const Home = ({ user }: HomeProps) => {
   const [posts, setPosts] = useState([]);
-  const [filter, setFilter] = useState("http://localhost:8000/posts");
+  const [filter, setFilter] = useState(`${HOST_URL}/posts`);
 
   useEffect(() => {
     console.log(filter);
@@ -43,32 +43,26 @@ const Home = ({ user }: HomeProps) => {
 
   return (
     <div>
-      <Box display="flex" bg="black" padding="12px" gap="15px">
+      <VStack spacing={4}>
+        <br />
+        <Box padding="12px">
+          <PostForm user={user} />
+        </Box>
         <Box w="md">
           <FormControl>
-            <Select value={filter} onChange={(e) => setFilter(e.target.value)}>
-              <option value="http://localhost:8000/posts">Filter</option>
-              <option value="http://localhost:8000/posts/popular">
-                Most Popular
-              </option>
-              <option value="http://localhost:8000/posts/Science">
-                Science
-              </option>
-              <option value="http://localhost:8000/posts/Mathematics">
-                Mathematics
-              </option>
-              <option value="http://localhost:8000/posts/ComputerScience">
-                Computer Science
-              </option>
+            <Select
+              value={filter}
+              onChange={(e) => setFilter(`${HOST_URL} / ${e.target.value}`)}
+            >
+              <option value="posts">Filter</option>
+              <option value="posts/popular">Most Popular</option>
+              <option value="posts/Science">Science</option>
+              <option value="posts/Mathematics">Mathematics</option>
+              <option value="posts/ComputerScience">Computer Science</option>
             </Select>
           </FormControl>
         </Box>
-        <Box>
-          <PostForm />
-        </Box>
-      </Box>
 
-      <VStack spacing={4}>
         {posts.map((post: any) => (
           <HStack>
             <Link

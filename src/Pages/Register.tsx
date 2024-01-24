@@ -12,6 +12,7 @@ import {
   Link,
   Heading,
 } from "@chakra-ui/react";
+import { HOST_URL } from "../App";
 
 type FormData = {
   username: string;
@@ -34,7 +35,7 @@ const Register: React.FC = () => {
     // *should I encrypt the password over here instead of the backend level?
 
     // Send a request to the API
-    const response = await fetch("http://localhost:8000/auth/register", {
+    const response = await fetch(`${HOST_URL}/auth/register`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: jsonContent,

@@ -8,6 +8,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { postProps } from "./SinglePost";
+import { HOST_URL } from "../App";
 
 interface EditProps {
   post: any;
@@ -19,7 +20,7 @@ function EditPostForm({ post }: EditProps) {
 
   async function handleSubmit(e: any) {
     e.preventDefault();
-    const response = await fetch(`http://localhost:8000/post/${post.id}`, {
+    const response = await fetch(`${HOST_URL}/post/${post.id}`, {
       method: "PATCH",
       headers: { "Content-type": "application/json" },
       credentials: "include",

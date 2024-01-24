@@ -7,13 +7,14 @@ import {
   Select,
   Button,
 } from "@chakra-ui/react";
+import { HOST_URL } from "../App";
 
 const CreateCommentForm = ({ post }: { post: any }) => {
   const [content, setContent] = useState("");
 
   async function handleSubmit(e: any) {
     e.preventDefault();
-    const response = await fetch(`http://localhost:8000/comment/${post.id}`, {
+    const response = await fetch(`${HOST_URL}/comment/${post.id}`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: "include",

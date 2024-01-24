@@ -8,6 +8,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { postProps } from "./SinglePost";
+import { HOST_URL } from "../App";
 
 interface EditProps {
   comment: any;
@@ -17,15 +18,12 @@ function EditCommentForm({ comment }: EditProps) {
 
   async function handleSubmit(e: any) {
     e.preventDefault();
-    const response = await fetch(
-      `http://localhost:8000/comment/${comment.id}`,
-      {
-        method: "PATCH",
-        headers: { "Content-type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ content }),
-      }
-    );
+    const response = await fetch(`${HOST_URL}comment/${comment.id}`, {
+      method: "PATCH",
+      headers: { "Content-type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ content }),
+    });
 
     if (response.ok) {
       console.log("Comment edited");

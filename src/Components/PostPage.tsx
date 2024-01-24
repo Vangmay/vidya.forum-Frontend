@@ -10,6 +10,12 @@ import {
   IconButton,
   Flex,
   Center,
+  Card,
+  CardHeader,
+  CardBody,
+  Image,
+  CardFooter,
+  Link,
 } from "@chakra-ui/react";
 import {
   FaRegEdit,
@@ -22,6 +28,7 @@ import {
 import SingleComment from "./SingleComment";
 import CreateCommentForm from "./CreateCommentForm";
 import EditPostForm from "./EditPostForm";
+import { HOST_URL } from "../App";
 
 interface Post {
   id: string;
@@ -32,6 +39,7 @@ interface Post {
   user: {
     id: string;
     userName: string;
+    bio: string;
   };
   comments: any[];
   IsEdited: boolean;
@@ -45,6 +53,7 @@ const emptyPost = {
   user: {
     id: 0,
     userName: "",
+    bio: "",
   },
   comments: [],
   IsEdited: false,
@@ -62,7 +71,7 @@ function PostPage({ currentUser }: Props) {
   const [showLike, setShowLike] = useState(true);
 
   async function handleLike() {
-    const response = await fetch(`http://localhost:8000/post/like/${post.id}`, {
+    const response = await fetch(`${HOST_URL}/post/like/${post.id}`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: "include",
@@ -70,22 +79,21 @@ function PostPage({ currentUser }: Props) {
     if (response.ok) {
       console.log("Post liked succesfully");
       setShowLike(false);
+      post.likes += 1;
     } else {
       console.error("failed to like post");
     }
   }
   async function handleUnlike() {
-    const response = await fetch(
-      `http://localhost:8000/post/unlike/${post.id}`,
-      {
-        method: "POST",
-        headers: { "Content-type": "application/json" },
-        credentials: "include",
-      }
-    );
+    const response = await fetch(`${HOST_URL}/post/unlike/${post.id}`, {
+      method: "POST",
+      headers: { "Content-type": "application/json" },
+      credentials: "include",
+    });
     if (response.ok) {
       console.log("Post unliked succesfully");
       setShowLike(true);
+      post.likes -= 1;
     } else {
       console.error("failed to unlike post");
     }
@@ -93,7 +101,7 @@ function PostPage({ currentUser }: Props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/post/${postId}`, {
+        const response = await fetch(`${HOST_URL}/post/${postId}`, {
           method: "GET",
           headers: { "Content-type": "application/json" },
         });
@@ -109,7 +117,7 @@ function PostPage({ currentUser }: Props) {
 
   async function handleDelete() {
     // Send a request to
-    const response = await fetch(`http://localhost:8000/post/${post.id}`, {
+    const response = await fetch(`${HOST_URL}/post/${post.id}`, {
       method: "DELETE",
       headers: { "Content-type": "application/json" },
       credentials: "include",
@@ -131,93 +139,106 @@ function PostPage({ currentUser }: Props) {
   return (
     <Box p={4} borderWidth="1px" borderRadius="md">
       <Center>
-        <Box
-          margin={"2px"}
-          borderRadius="10px"
-          borderColor="black"
-          borderWidth="2.5px"
-          padding="20px"
-        >
-          <Flex align="center" justify="space-between" mb={4}>
-            {openEditForm ? (
-              <EditPostForm post={post} />
-            ) : (
-              <Box>
-                <Text mb={2}>Posted by {post.user?.userName}</Text>
-                <Heading as="h2" fontSize="2xl" mb={2}>
-                  {post.title}
-                </Heading>
-                <Text
-                  bg="gray.500"
-                  width="fit-content"
-                  padding="5px"
-                  borderRadius="10px"
-                >
-                  {post.tag}
-                </Text>
-              </Box>
-            )}
-          </Flex>
-          <Center>
-            <Text mb={4}>{post.body}</Text>
-          </Center>
-          {/* {openEditForm ? <EditPostForm post={post} /> : <></>} */}
+        <Card data-type="Card" maxW="xxl">
+          <CardHeader data-type="CardHeader">
+            <Flex data-type="Flex" gap="4">
+              <Flex
+                data-type="Flex"
+                flex="1"
+                gap="4"
+                alignItems="center"
+                flexWrap="wrap"
+              >
+                <Avatar data-type="Avatar" name={post.user.userName} />
+                <Box data-type="Box">
+                  <Link
+                    href={`/profile/${post.user.id}`}
+                    _hover={{
+                      textDecoration: "none",
+                      borderBottom: "2px solid #00f",
+                    }}
+                  >
+                    <Heading data-type="Heading" size="sm">
+                      {post.user.userName}
+                    </Heading>
+                  </Link>
+                </Box>
+              </Flex>
+            </Flex>
+          </CardHeader>
+          <CardBody data-type="CardBody">
+            <Heading as="h2">{post.title}</Heading>
+            <Text data-type="Text">{post.body}</Text>
+          </CardBody>
 
-          <br></br>
-          <br></br>
-          <br></br>
-          <Flex>
-            {currentUser && currentUser.id === post.user?.id && (
-              <Flex>
-                <Button mr={2} aria-label="Comments" disabled>
-                  {post.comments.length} Comments
-                </Button>
-                <Button mr={2} aria-label="Likes" disabled>
-                  {post.likes} Likes
-                </Button>
-                {showLike ? (
-                  <Button
-                    leftIcon={<FaRegThumbsUp />}
-                    colorScheme="blue"
-                    mr={2}
-                    aria-label="Like Post"
-                    onClick={() => handleLike()}
-                  >
-                    Like
-                  </Button>
-                ) : (
-                  <Button
-                    leftIcon={<FaRegThumbsDown />}
-                    colorScheme="blue"
-                    mr={2}
-                    aria-label="Edit Post"
-                    onClick={() => handleUnlike()}
-                  >
-                    UnLike
-                  </Button>
-                )}
+          <>Insert post image</>
+          {/* <Image
+              data-type="Image"
+              objectFit="cover"
+              // src={post.}
+            ></Image> */}
+
+          <CardFooter
+            data-type="CardFooter"
+            justify="space-between"
+            flexWrap="wrap"
+          >
+            <Flex>
+              <Button mr={2} aria-label="Comments" disabled>
+                {post.comments.length} Comments
+              </Button>
+              <Button mr={2} aria-label="Likes" disabled>
+                {post.likes} Likes
+              </Button>
+              {showLike ? (
                 <Button
-                  leftIcon={<FaRegEdit />}
+                  leftIcon={<FaRegThumbsUp />}
+                  colorScheme="blue"
+                  mr={2}
+                  aria-label="Like Post"
+                  onClick={() => handleLike()}
+                >
+                  Like
+                </Button>
+              ) : (
+                <Button
+                  leftIcon={<FaRegThumbsDown />}
                   colorScheme="blue"
                   mr={2}
                   aria-label="Edit Post"
-                  onClick={() => setOpenEditForm(!openEditForm)}
+                  onClick={() => handleUnlike()}
                 >
-                  {openEditForm ? "Close" : "Edit Post"}
+                  UnLike
                 </Button>
-                <Button
-                  leftIcon={<FaTrashAlt />}
-                  colorScheme="red"
-                  mr={2}
-                  aria-label="Edit Post"
-                  onClick={handleDelete}
-                >
-                  Delete
-                </Button>
-              </Flex>
-            )}
-          </Flex>
-        </Box>
+              )}
+              {currentUser && currentUser.id === post.user?.id && (
+                <Flex>
+                  <Button
+                    leftIcon={<FaRegEdit />}
+                    colorScheme="blue"
+                    mr={2}
+                    aria-label="Edit Post"
+                    onClick={() => setOpenEditForm(!openEditForm)}
+                  >
+                    {openEditForm ? "Close" : "Edit Post"}
+                  </Button>
+                  <Button
+                    leftIcon={<FaTrashAlt />}
+                    colorScheme="red"
+                    mr={2}
+                    aria-label="Edit Post"
+                    onClick={handleDelete}
+                  >
+                    Delete
+                  </Button>
+                </Flex>
+              )}
+            </Flex>
+          </CardFooter>
+        </Card>
+        <br></br>
+        <br></br>
+        <br></br>
       </Center>
       <Box margin={"20px"} border="solid 1px"></Box>
       <Center>

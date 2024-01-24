@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Box, Text, Avatar, VStack, HStack, Button } from "@chakra-ui/react";
 import SingleComment from "./SingleComment";
 import CreateCommentForm from "./CreateCommentForm";
+import { HOST_URL } from "../App";
 // Implement CRUD for posts
 export interface postProps {
   post: any; // ! Change later
@@ -16,7 +17,7 @@ const SinglePost = ({ post, currentUser, filter, setFilter }: postProps) => {
   // Delete post logic
   async function handleDelete() {
     // Send a request to
-    const response = await fetch(`http://localhost:8000/post/${id}`, {
+    const response = await fetch(`${HOST_URL}/post/${id}`, {
       method: "DELETE",
       headers: { "Content-type": "application/json" },
       credentials: "include",
@@ -33,7 +34,7 @@ const SinglePost = ({ post, currentUser, filter, setFilter }: postProps) => {
   }
   const [showLike, setShowLike] = useState(true);
   async function handleLike() {
-    const response = await fetch(`http://localhost:8000/post/like/${id}`, {
+    const response = await fetch(`${HOST_URL}/post/like/${id}`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: "include",
@@ -46,7 +47,7 @@ const SinglePost = ({ post, currentUser, filter, setFilter }: postProps) => {
     }
   }
   async function handleUnlike() {
-    const response = await fetch(`http://localhost:8000/post/unlike/${id}`, {
+    const response = await fetch(`${HOST_URL}/post/unlike/${id}`, {
       method: "POST",
       headers: { "Content-type": "application/json" },
       credentials: "include",
