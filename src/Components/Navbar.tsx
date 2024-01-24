@@ -44,18 +44,8 @@ const Navbar: React.FC<NavBarProps> = ({
   };
 
   useEffect(() => {
-    const response = fetch(`${HOST_URL}/auth/profile`, {
-      method: "GET",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setUser(data);
-        console.log(profile);
-      })
-      .then((error) => console.error("Could not fetch user"));
-  }, []);
+    console.log("user updated in navbar", profile);
+  }, [profile]);
 
   let menu;
 

@@ -28,7 +28,7 @@ export default interface User {
   IsAdmin: boolean;
 }
 
-export const HOST_URL = "https://starfish-app-wjuq9.ondigitalocean.app";
+export const HOST_URL = "http://localhost:8080";
 
 export const App = () => {
   console.log("Running app");
