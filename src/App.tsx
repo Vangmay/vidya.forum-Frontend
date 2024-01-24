@@ -54,6 +54,10 @@ export const App = () => {
       setUser(content);
     })();
   }, []);
+
+  useEffect(() => {
+    console.log("user updated in navbar", user);
+  }, [user]);
   return (
     <ChakraProvider theme={theme}>
       <Navbar
