@@ -23,6 +23,7 @@ import UserProfile from "./Components/UserProfile";
 export default interface User {
   Id: number;
   UserName: string;
+  Bio: string;
   Email: string;
   IsAdmin: boolean;
 }
@@ -34,11 +35,12 @@ export const App = () => {
   const emptyUser: User = {
     Id: 0,
     UserName: "",
+    Bio: "",
     Email: "",
     IsAdmin: false,
   };
 
-  const [user, setUser] = useState<User>(emptyUser);
+  const [user, setUser] = useState(emptyUser);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
     (async () => {
