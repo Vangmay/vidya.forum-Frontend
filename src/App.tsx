@@ -40,7 +40,7 @@ export const App = () => {
     IsAdmin: false,
   };
 
-  const [user, setUser] = useState(emptyUser);
+  const [user, setUser] = useState<User>(emptyUser);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
     (async () => {
