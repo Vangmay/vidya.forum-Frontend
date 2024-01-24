@@ -43,6 +43,7 @@ const Home = ({ user }: HomeProps) => {
 
   return (
     <div>
+      {JSON.stringify(user)}
       <VStack spacing={4}>
         <br />
         <Box padding="12px">
